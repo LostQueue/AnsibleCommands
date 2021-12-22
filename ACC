@@ -124,3 +124,7 @@ Dry-run p4.yml playbook
 Run p4.yml playbook with password authentication for all hosts
 
 [root@ansible-server test_ansible]# ansible-playbook -i hosts p4.yml -k
+
+Whenever you want to check your inventory, you can run:
+
+ansible-inventory --list -y
