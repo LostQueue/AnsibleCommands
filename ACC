@@ -1,0 +1,51 @@
+Ad Hoc Commands
+\\Make sure hosts are accessible from the server by pinging all hosts
+    ansible -i hosts all -m ping
+\\For specific hosts
+    ansible -i hosts all -m ping --limit host2
+\\Copy a file to multiple destinations rapidly
+    ansible -i hosts all -m copy -a "src=/root/test_ansible/testfile dest=/tmp/testfile
+\\Install a Package via yum module
+    ansible -i hosts all -m yum -a 'name=ncdu state=present'
+\\Gather facts from system variables
+    ansible -i hosts all -m setup
+    
+ Playbooks are a way to send commands to remote systems through scripts
+ 
+     hosts:         \\group of hosts on which the playbook will run\\
+     tasks:
+         name:      \\yum module is used in this task for installation 
+         yum:
+             name:
+             state:
+         -name:     \\service module is used to check if the service is up and running
+         service:
+             name:
+             state:
+             
+\\Inventory file contains a list of servers divided into groups for better control for details like IP Address and SSH Port for each host
+
+\\Example of Playbook - for first group of hosts "group1" selinux will be enabled
+\\                    - for second group of hosts httpd packages will be installed only if the ansible_os_family is RedHat and ansible_system_vendor is HP
+\\ Ansible_os_family and ansible_system_vendor are variables gathered with gather_facts option and can be used like in this conditional example.
+
+hosts: group1
+tasks:
+    - name: Enable SELinux
+      selinux:
+        state: enabled
+      when: ansible_os_family == 'Debian'
+      register: enable_selinux
+      
+    - debug:
+        Imag: "Selinux Enable. Please restart the server to apply changes."
+      when: enable_selinux.changed == true
+      
+      
+      - hosts: group2
+        tasks:
+        - name: Install apache
+          yum:
+            name: httpd
+            state: present
+          when: ansible_system_vendor == 'HP' and ansible_os_family == 'RedHat'
