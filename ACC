@@ -49,3 +49,18 @@ tasks:
             name: httpd
             state: present
           when: ansible_system_vendor == 'HP' and ansible_os_family == 'RedHat'
+          
+          \\Handler will run only once after all tasks are finished
+          
+          handlers
+              - name: restart sshd
+                service: sshd
+                  name:sshd
+                  stste: restarted
+                  
+                  
+  \\tasks can split by roles - roles are collections of tasks which can be moved from one playbook to another, can be run independtly, but only through a playbook file
+  \\to create the directory tree for a role you should use the following commandwith the last parameter, the role name
+  
+      ansible-galaxy init "rolename"
+  
