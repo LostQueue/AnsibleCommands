@@ -1,0 +1,33 @@
+https://www.educba.com/ansible-register/
+
+Create a File Playbook
+
+- hosts: all 
+
+  
+
+  remote_user: localadmin 
+
+   
+
+  become: true 
+
+  
+
+  tasks: 
+
+  
+
+  - name: Creating an empty file 
+
+  
+
+    file: 
+
+  
+
+      path: "/home/localadmin/test_file.txt" 
+
+  
+
+      state: touch 
