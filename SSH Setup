@@ -1,0 +1,36 @@
+Setting up SSH Keys 
+
+
+If you generate a new key pair, the old one will be overwritten. To check whether the key files exist, run the following ls command: 
+
+ 
+
+If the command returns something like No such file or directory, or no matches found, it means that the user does not have SSH keys 
+
+ 
+
+ls –l ~/.ssh/id_*.pub 
+
+ 
+
+      Keys exist here: /home/yourusername/.ssh/id_rsa /home/yourusername/.ssh/id_rsa.pub 
+
+ 
+
+Now that you have an SSH key pair, the next step is to copy the public key to the remote server you want to manage. 
+
+ 
+
+The easiest and the recommended way to copy the public key to the server is to use the ssh-copy-id tool. On your local machine type: 
+
+ 
+
+ssh-copy-id remote_username@server_ip_address 
+
+ 
+
+You will be prompted to enter the remote user password: 
+
+ 
+
+Once the user is authenticated, the public key ~/.ssh/id_rsa.pub will be appended to the remote user ~/.ssh/authorized_keys file, and the connection will be closed. 
